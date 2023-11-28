@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <title>Main page</title>
+    <meta name="viewport" content="width=600">
+    <meta name="description"
+          content="Use this HTML basic website three percentage column layout template with the extra stuff on the left, the main content at the center, the navigation menu on the right.">
+    <meta name="generator" content="HAPedit 3.1">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <script type="text/javascript" th:src="@{/js/closeIndexForm.js}"></script>
+    <script type="text/javascript" th:src="@{/js/toggleForm.js}"></script>
+    <script type="text/javascript" th:src="@{/js/saveList.js}"></script>
+    <script type="text/javascript" th:src="@{/js/deleteList.js}"></script>
+</head>
+<body>
+<div id="container">
+    <div id="header">
+        <h1>Welcome to Family List</h1>
+    </div>
+    <div id="wrapper">
+        <div id="content">
+            <p><strong>It's a resource that helps you create shopping lists, to-do lists, gift lists, etc.</strong></p>
+            <button type="button" onclick="toggleForm()">Create new List</button>
+            <form id="createForm">
+                <label for="name">List name:</label>
+                <input type="text" id="name" name="name" value="NewList">
+                <button type="button" onclick="saveList()">Save</button>
+                <button type="button" onclick="closeIndexForm()">Close</button>
+            </form>
+            <p>Lists:
+            </p>
+            <ul>
+                <li th:each="listItem : ${lists}">
+                    <a th:href="@{'/grocery_list/list/' + ${userId} + '/' + ${listItem.id}}"
+                       th:text="${listItem.listName}"></a>
+                    <button type="button" th:onclick="'deleteList(' + ${listItem.id} + ')'">Delete</button>
+                    <br>
+                </li>
+            </ul>
+            <a href="/about" th:href="@{/about}">About</a>
+        </div>
+    </div>
+    <div id="navigation"></div>
+    <div id="extra"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  postgres:
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_USER=postgres
+    image: 'grocery-list-service-db:0.0.1'
+
+  backend:
+    build:
+      dockerfile: Dockerfile
+    environment:
+      - captcha.secret.key=<INSERT_YOUR_CAPTCHA_SECRET_KEY_HERE>
+      - DB_PASSWORD=mysecretpassword
+      - DB_URL=jdbc:postgresql://postgres:5432/postgres
+      - DB_USERNAME=postgres
+    image: 'grocerylist-service:0.0.1'
+    ports:
+      - 8443:8443
+    depends_on:
+      - postgres

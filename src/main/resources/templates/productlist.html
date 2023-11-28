@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <title>Grocery list</title>
+    <meta name="viewport" content="width=600">
+    <meta name="description"
+          content="Use this HTML basic website three percentage column layout template with the extra stuff on the left, the main content at the center, the navigation menu on the right.">
+    <meta name="generator" content="HAPedit 3.1">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/productlist.css}"/>
+    <script type="text/javascript" th:src="@{/js/openCopyListForm.js}"></script>
+    <script type="text/javascript" th:src="@{/js/closeForm.js}"></script>
+    <script type="text/javascript" th:src="@{/js/openAddForm.js}"></script>
+    <script type="text/javascript" th:src="@{/js/closeAddForm.js}"></script>
+    <script type="text/javascript" th:src="@{/js/checkboxCrossOut.js}"></script>
+    <script type="text/javascript" th:src="@{/js/hidePurchases.js}"></script>
+    <script type="text/javascript" th:src="@{/js/deleteProduct.js}"></script>
+    <script type="text/javascript" th:src="@{/js/addProduct.js}"></script>
+    <script type="text/javascript" th:src="@{/js/saveProduct.js}"></script>
+    <script type="text/javascript" th:src="@{/js/updateProduct.js}"></script>
+    <script type="text/javascript" th:src="@{/js/addCopyListName.js}"></script>
+
+</head>
+<body>
+<div id="container">
+    <div id="header">
+        <button class="btn" onclick="window.location.href = '/lists/'"><img src="/images/vectorLeft.png" alt="comeback">
+        </button>
+        <h1 th:text="${listName}"/>
+    </div>
+    <div id="wrapper">
+        <div id="content">
+            <form action="/submit" method="post">
+                <button type="button" onclick="openAddForm()">Add Item</button>
+                <!--                <button type="button" class="image-button" title="Show/hide purchases" onclick="hidePurchases('labelHide')"></button>-->
+                <button type="button" onclick="openCopyListForm()">Copy List</button>
+                <div id="formContainer" class="hidden">
+                </div>
+            </form>
+            <form id="createCopyListForm">
+                <label for="newNameList">Name:</label>
+                <input type="text" id="newNameList" name="newNameList" th:value="${listName + 'Copy'}"
+                       autocomplete="off"/>
+                <button type="button" id="copyListName"
+                        th:onclick="'addCopyListName(' + ${userId} + ', ' + ${listId} + ')'">Save
+                </button>
+                <button type="button" onclick="closeForm()">Close</button>
+            </form>
+            <form id="createAddForm">
+                <label for="productA">Product:</label>
+                <input type="text" list="product" id="productA" placeholder="product"/>
+                <datalist id="product">
+                </datalist>
+                <input type="text" id="productAmount" name="productAmount" placeholder="amount"/>
+                <select id="productAmountSize">
+                    <option value="kg">kg</option>
+                    <option value="liter">L</option>
+                    <option value="bottle">bt</option>
+                    <option value="cans">cans</option>
+                    <option value="doz">doz</option>
+                    <option value="piece">pc</option>
+                </select>
+                <button type="button" th:onclick="'addProduct(' + ${userId} + ', ' + ${listId} + ')'">Add</button>
+                <button type="button" onclick="closeAddForm()">Close</button>
+            </form>
+            <ul th:each="item : ${groceryListMap}">
+                <div th:each="productItem : ${item.value}">
+                    <div class="container">
+                        <div class="item item2">
+                            <input name="checked" type="checkbox" onclick="checkboxCrossOut(this)">
+                            <label for="labelHide" id="labelHide" th:text="${productItem.name}"></label>
+
+                        </div>
+                        <div class="item item3">
+                            <input name="amount" type="text" th:id="${productItem.id}" th:value="${productItem.amount}">
+                        </div>
+                        <div class="item item4">
+                            <input name="amountSize" type="text" th:id="${productItem.id}"
+                                   th:value="${productItem.amountSize}">
+                        </div>
+                        <div class="item item5">
+                            <button type="submit"
+                                    th:onclick="'deleteProduct(' + ${userId} + ', ' + ${listId} +  ', ' + ${productItem.id} + ')'">
+                                Delete
+                            </button>
+                        </div>
+                        <div class="item item6">
+                            <button type="submit"
+                                    th:onclick="'updateProduct(' + ${userId} + ', ' + ${listId} +  ', ' + ${productItem.id} + ')'">
+                                Update
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </ul>
+
+        </div>
+    </div>
+</div>
+<div id="navigation">
+</div>
+<div id="extra">
+</div>
+</div>
+</body>
+</html>

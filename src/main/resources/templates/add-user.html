@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>Regsiter User</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}"/>
+    <link rel="stylesheet" href="/styles/registration.css"/>
+    <link rel="stylesheet" href="/styles/style.css"/>
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="http://cdn.jsdelivr.net/webjars/bootstrap/4.1.0/css/bootstrap.min.css"
+            th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+    />
+    <script
+            src="http://cdn.jsdelivr.net/webjars/bootstrap/4.1.0/js/bootstrap.min.js"
+            th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"
+    ></script>
+
+    <script
+            src="http://cdn.jsdelivr.net/webjars/jquery/3.3.1/jquery.min.js"
+            th:src="@{/webjars/jquery/jquery.min.js}"
+    ></script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+</head>
+
+<body>
+<img src="/images/main_list_products.jpg" class="image_front"></a>
+<div id="login-box">
+    <div class="left">
+        <h1 class="reg">Register User</h1>
+
+        <form
+                action="#"
+                th:action="@{/adduser}"
+                th:object="${user}"
+                method="POST"
+        >
+            <div th:if="${param.success}">
+                <div class="alert alert-success">
+                    Registration completed. You can now
+                    <a href="/login" th:href="@{/login}">login</a>
+                </div>
+            </div>
+            <div th:if="${param.duplicate}">
+                <div class="alert alert-duplicate">
+                    Registration failed.You entered the wrong username or email! Try again.
+                    <a href="/adduser" th:href="@{/adduser}"></a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputUsername">Username</label>
+                <input
+                        type="text"
+                        th:field="*{username}"
+                        class="form-control"
+                        id="inputUsername"
+                        placeholder="Enter Username"
+                />
+                <span
+                        th:if="${#fields.hasErrors('username')}"
+                        th:errors="*{username}"
+                        class="text-danger"
+                ></span>
+            </div>
+
+            <div class="form-group">
+                <label for="inputEmail">Email Address</label>
+                <input
+                        type="email"
+                        th:field="*{email}"
+                        class="form-control"
+                        id="inputEmail"
+                        placeholder="Enter Email"
+                />
+                <span
+                        th:if="${#fields.hasErrors('email')}"
+                        th:errors="*{email}"
+                        class="text-danger"
+                ></span>
+            </div>
+
+            <div class="form-group">
+                <label for="inputPassword">Password</label>
+                <input
+                        type="password"
+                        th:field="*{password}"
+                        class="form-control"
+                        id="inputPassword"
+                        placeholder="Password"
+                />
+                <span
+                        th:if="${#fields.hasErrors('password')}"
+                        th:errors="*{password}"
+                        class="text-danger"
+                ></span>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input
+                        type="password"
+                        th:field="*{confirmPassword}"
+                        class="form-control"
+                        id="confirmPassword"
+                        placeholder="Confirm Password"
+                />
+                <span
+                        th:if="${#fields.hasErrors('confirmPassword')}"
+                        th:errors="*{confirmPassword}"
+                        class="text-danger"
+                ></span>
+                <div class="g-recaptcha mb-2" data-sitekey="6LdRQhglAAAAAOYdi0pSUCh83Vc4w8auWCcYvv4T"></div>
+                <div class="form-group text-center">
+                    <input
+                            type="submit"
+                            class="btn btn-dark center"
+                            value="Sign Up"
+                    />
+                </div>
+            </div>
+        </form>
+
+        <span class="loginwith">Sign in with<br/>social network</span>
+        <button class="social-signin facebook">Log in with facebook</button>
+        <script src="/js/google.js"></script>
+        <div class="g-signin2" data-onsuccess="onSignIn">
+            <button class="social-signin google" href="/oauth2/authorization/google">Log in with Google</button>
+            <br>
+            <p>Already have an account? <a href="/login">Sign in</a></p>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</body>
+</html>
